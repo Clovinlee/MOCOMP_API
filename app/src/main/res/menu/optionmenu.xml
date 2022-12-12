@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menurefresh"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        android:title="Refresh"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menusort_asc"
+        android:title="Sort ASC" />
+    <item
+        android:id="@+id/menusort_desc"
+        android:title="Sort DESC" />
+</menu>

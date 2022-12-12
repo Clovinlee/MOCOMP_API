@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">db</string>
+    <string-array name="jurusan_array">
+        <item>D3</item>
+        <item>S1</item>
+        <item>S2</item>
+    </string-array>
+</resources>

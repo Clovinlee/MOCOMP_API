@@ -1,0 +1,18 @@
+private fun dialog() {
+        val binding=layoutInflater.inflate(R.layout.dialog,null)
+        val d=Dialog(this)
+        with(d) {
+            setContentView(binding)
+            setCancelable(true)
+            title="hi"
+            val toast=binding.findViewById<Button>(R.id.button2)
+            val txt=binding.findViewById<EditText>(R.id.editTextTextPersonName)
+            toast.setOnClickListener {
+                Toast.makeText(this@MainActivity,txt.text.toString(),Toast.LENGTH_SHORT).show()
+                this.dismiss()
+            }
+            show()
+        }
+    }
+
+manggilnya tinggal dialog()

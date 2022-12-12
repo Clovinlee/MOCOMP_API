@@ -1,0 +1,118 @@
+function swapfragment
+
+fun swapFragment(f:Fragment){
+        supportFragmentManager.beginTransaction().replace(R.id.fpengajar,f).commit()
+    }
+
+function toRupiah
+
+fun Int.toRupiah():String{
+        return NumberFormat.getCurrencyInstance(Locale("in","ID")).format(this)
+    }
+
+function toast
+
+fun String.toast(c:Context){
+        Toast.makeText(c,this, Toast.LENGTH_SHORT).show()
+    }
+
+buat database
+
+@Database(entities = [
+    User::class,
+    Kelas::class,
+    MuridKelas::class
+], version = 1)
+abstract class DB:RoomDatabase() {
+    abstract val rd:LRDao
+    abstract val kd:KelasDao
+    abstract val mkd:MKDao
+    companion object{
+        var db:DB?=null
+        fun Build(c:Context):DB{
+            if (db == null) {
+                db=Room.databaseBuilder(c,DB::class.java,"Korsira").build()
+            }
+            return db!!
+        }
+    }
+}
+
+PopUp Menu
+
+btnPopUp.setOnClickListener {
+            var b = it as Button
+            // pop up menu perlu membuat object dari class PopupMenu
+            // dimana terdapat dua parameter yaitu context dan view yang akan dibind
+            val popUp = PopupMenu(this,b)
+
+            // untuk meregister layout menu yang akan digunakan diperlukan menuInflater
+            popUp.menuInflater.inflate(R.menu.example_menu,popUp.menu)
+
+            // untuk dapat melakukan aksi setelah menekan salah satu menu kita dapat menambahkan
+            // callback function pada pop up menu
+            popUp.setOnMenuItemClickListener {
+                // setOnMenuItemClickListener memerlukan return boolean
+                return@setOnMenuItemClickListener when(it.itemId){
+                    // bila menu yang diklik merupakan menu detail
+                    R.id.menu_detail->{
+                        Toast.makeText(this,"Click by Detail in Pop Up Menu",Toast.LENGTH_SHORT).show()
+                        true
+                    }
+
+                    // bila menu yang diklik adalah menu change
+                    // untuk menset color berdasarkan rgb kita dapat menggunakan method Color.rgb()
+                    R.id.menu_change->{
+                        b.setBackgroundColor(Color.rgb(Random.nextInt(0,256),Random.nextInt(0,256),Random.nextInt(0,256)))
+                        true
+                    }
+                    else ->{
+                        false
+                    }
+                }
+            }
+            // popup show digunakan agar menu popup dapat tampil dilayar
+            popUp.show()
+        }
+
+COntext menu
+
+pertama register view yang akan dipasang
+
+registerForContextMenu(btnContext)
+
+ override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        // menset contextmenu sebagai view yang akan digunakan
+        focusedContextView = v
+        // pada bagian kita menambahkan layout ke dalam menu
+        menuInflater.inflate(R.menu.example_menu,menu)
+        // tambahan : pada bagian ini pula kita bisa melakukan if berdasarkan view atau kondisi tertentu
+    }
+
+
+    // method yang akan dipanggil bila ada context menu yang di klik
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_detail->{
+                if(focusedContextView == btnContext){
+                    Toast.makeText(this,"Click By Button Context",Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(this,"Click By Layout",Toast.LENGTH_SHORT).show()
+                }
+                return true
+            }
+            R.id.menu_change->{
+                focusedContextView?.setBackgroundColor(Color.rgb(Random.nextInt(0,256),Random.nextInt(0,256),Random.nextInt(0,256)))
+                return true
+            }
+            else -> {
+                return super.onContextItemSelected(item)
+            }
+        }
+    }

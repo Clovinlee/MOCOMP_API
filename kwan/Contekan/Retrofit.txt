@@ -1,0 +1,43 @@
+Buat Retrofit
+class ApiConfiguration {
+    companion object{
+        fun getApiService():ApiService{
+            val loggingInterceptor=HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            val client=OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+            val retrofit=Retrofit.Builder().baseUrl("http://api.openweathermap.org/data/2.5/").addConverterFactory(GsonConverterFactory.create()).client(client).build()
+            return retrofit.create(ApiService::class.java)
+        }
+    }
+}
+note: ApiService -> interfacebuat ambil data mirip dao
+Activity
+ val client=ApiConfiguration.getApiService().getWeatherPlaceholder()
+
+cara ambil data
+
+interface ApiService {
+    @GET("weather?q=Surabaya&APPID=b2b0a66e2cf87f0ca54a6931932b5b47")->url get
+    fun getWeatherPlaceholder():Call<WeatherResponse>
+}
+
+Activity
+client.enqueue(object :Callback<WeatherResponse>{
+            override fun onResponse(
+                call: Call<WeatherResponse>,
+                response: Response<WeatherResponse>
+            ) {
+                if (response.isSuccessful){
+                    val responseBody=response.body()
+                    if (responseBody != null) {
+                        tvInfo.text=responseBody.weather!!.first()!!.description
+                    }
+                }else{
+
+                }
+            }
+
+            override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                Log.e(TAG,"onFailureL ${t.message}")
+            }
+
+        })
